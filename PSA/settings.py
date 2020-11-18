@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap_modal_forms',
+    'eventos.apps.EventosConfig',
     'users',
     'django.contrib.admin',
     'django.contrib.auth',
