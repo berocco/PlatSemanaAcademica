@@ -1,0 +1,9 @@
+{% if lista_evn_rct %}
+    <ul>
+        {% for evento in lista_evn_rct %}
+            <li><a href="{% url 'eventos:detail' evento.nome %}">{{ evento.nome }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Sem eventos disponíveis</p>
+{%  endif %}
