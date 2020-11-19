@@ -17,3 +17,7 @@ def detail(request, evento_nome):
 
 def inscricao(request, evento_nome):
     return HttpResponse('Você está se inscrevendo no evento %s' %evento_nome)
+
+
+def novo(request):
+    return render(request, 'eventos/novo.html')

@@ -1,2 +1,6 @@
 <h1>{{ evento.nome }}</h1>
 <p>{{ evento.descricao }}</p>
+
+<p><a href="{% url 'eventos:inscricao' evento.nome %}">Inscrição</a></p>
+
+<p><a href="{% url 'eventos:index' %}">Voltar</a></p>

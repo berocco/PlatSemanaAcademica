@@ -1,3 +1,9 @@
+<h1>Eventos</h1>
+
+<p><a href="{% url 'eventos:novo' %}">Novo evento</a></p>
+
+<p>Últimos eventos:</p>
+
 {% if lista_evn_rct %}
     <ul>
         {% for evento in lista_evn_rct %}
