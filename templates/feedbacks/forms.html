@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="actualEvent">
+    <div class = "container">
+       <div class="actualEventText">Feedback do evento {{ evento.nome }}</div>
+    </div>
+ </div>
+
+ <form class="formun" method="post"> {% csrf_token %} 
+    {{ form.as_p }}
+    <input class="btn btn-secundary" type="submit" value="Mandar">
+ </form> 
+
+
+{% endblock %}

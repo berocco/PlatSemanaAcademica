@@ -1,0 +1,104 @@
+{% load static %}
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Semov</title>
+    <!-- Bootstrap 4 -->
+    
+    <link href="{% static 'css/bootstrap-social.css' %}" rel="stylesheet">
+    <link href="{% static 'css/prettyPhoto.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <!-- Font-awesome -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/brands.css" integrity="sha384-IiIL1/ODJBRTrDTFk/pW8j0DUI5/z9m1KYsTm/RjZTNV8RHLGZXkUDwgRRbbQ+Jh" crossorigin="anonymous">
+   {% block css %}
+   {% endblock %}
+  </head>
+  <body id="home" class="bgimageun vsc-initialized">
+   <header id="header">
+      <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+          <div class="container">
+           <div class="row justify-content-center">
+             <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'dashboard' %}"><img src="{% static 'images/logo2020.png' %}" alt="logo" class="logo"></a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                </button>
+             </div>
+             <div class="collapse navbar-collapse navbar-right">
+                <ul class="nav navbar-nav">
+                   <li class="scroll"><a href="{% url 'dashboard' %}">Home</a></li>
+                   <li class="scroll"><a href="{% url 'eventos:index' %}">Cronograma</a></li>
+                   <li class="scroll"><a href="http://cam.poli.usp.br/semov/">História</a></li>
+                   <li class="scroll divisor"></li>
+                   {% if user.is_authenticated %}
+                   <li class="scroll"><a href="{% url 'my_account' %}">Minha conta</a></li>
+                   <li class="scroll"><a href="{% url 'logout' %}">Logout</a></li>
+                   {% else %}
+                   <li class="scroll"><a href="{% url 'login' %}">Login</a></li>
+                   <li class="scroll"><a href="{% url 'register' %}">Register</a></li>
+                   {% endif %}
+                </ul>
+             </div>
+          </div>
+          </div><!--/.container-->
+      </nav><!--/nav-->
+  </header><!--/header-->
+  <div class="actualEvent">
+   <div class = "container">
+      <div class="actualEventText">Dashboard - Organizador</div>
+   </div>
+</div>
+
+<div class = 'row adminContent'>
+  <div class="sidenav ">
+     <a href="{% url 'dashboard' %}">Main</a>
+     <a href="{% url 'pesoasOrg' %}">Pessoas</a>
+     <a href="{% url 'eventos:evOrg' %}">Eventos</a>
+     <a href="{% url 'feedbacks' %}">Feedback</a>
+     <a href="{% url 'premiosMain' %}">Prêmios</a>
+   </div>
+   <div class='column adminContent' style="max-width: 85%;">
+   {% block content %}
+   {% endblock %}
+   </div>
+</div>
+
+
+
+<footer id="footerun">
+  <div class="container">
+     <div class="row">
+        <div class="col-sm-4">
+           &copy; 2020 Semov. Todos os direitos reservados.
+        </div>
+        <div class="col-sm-5 text-left">
+        </div>
+        <div class="col">
+           <ul class="social-icons">
+             <li><a href="https://www.facebook.com/semovpoliusp/"><i class="fab fa-facebook"></i></a></li>
+             <li><a href="https://www.instagram.com/semov.poliusp/"><i class="fab fa-instagram"></i></a></li>
+   <li><a href="https://www.linkedin.com/company/semov"><i class="fab fa-linkedin-square"></i></a></li>
+           </ul>
+        </div>
+     </div>
+  </div>
+</footer>
+
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+
+{% block js %}
+{% endblock js %}
+</body>

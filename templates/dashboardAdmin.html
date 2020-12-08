@@ -1,0 +1,29 @@
+{% extends 'baseOrg.html' %}
+{% load static %}
+
+{% block content %}
+<div class ='container'>
+   <div class="row container formGd">
+       {% if ativo %}
+       <h2>Evento agora: {{ ativo.0.nome }}, com {{ ativo.0.empresa }}
+       {% else %}
+       {% if nextEventos %}
+       <h2>Próximo evento: {{ nextEventos.0.nome }}<span>, dia {{ nextEventos.0.inicio|date:'d/m, à\s H:i' }}</span>
+       {% endif %}
+       {% endif %}
+   </div> 
+   
+   <div class="formAdm">
+      <h1>Próximos eventos:</h1>
+      {% if nextEventos %}
+      <ul>
+         {% for evento in nextEventos %}
+         <li><span>{{ evento.nome }}</span>, com {{ evento.empresa }} - {{ evento.inicio | date:'d/m, à\s H:i' }} - Quantidade de inscritos: {{ evento.inscritos.count }}</li>
+         {% endfor %}
+       </ul>
+      {% else %}
+      Nenhum evento cadasrado. Cadastre na aba de eventos.
+      {% endif %}
+  </div>  
+</div>
+{% endblock %}

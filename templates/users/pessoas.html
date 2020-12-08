@@ -1,0 +1,96 @@
+{% extends 'baseOrg.html' %}
+{% load static %}
+
+{% block css %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#partBut").click(function(){
+    $("#partTable").show();
+    $("#orgTable").hide();
+  });
+  $("#orgBut").click(function(){
+    $("#partTable").hide();
+    $("#orgTable").show();
+  });
+});
+</script>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
+<div class ='container'>   
+   <div class="formAdm">
+    <button type="button" class="btn active" id='partBut'><h2>Participantes</h2></button><button type="button" class="btn" id='orgBut'><h2>Organizadores</h2></button> <a href="{% url 'registerOrg' %}" class="btn btn-secundary">Registrar Organizador</a><a href="{% url 'perguntasInscricao' %}" class="btn btn-secundary">Gerenciar perguntas de inscrição</a></h2>
+      <table class="table table-bordered" id="partTable">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Faculdade/Curso</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+         {% for part in pats %}
+         <tr>
+            <td>{{ part }}</td>
+            <td>{{ part.user.email }}</td>
+            <td>{{ part.faculdade }}/{{ part.curso }}</td>
+            <td>
+              <button type="button" class="btn btn-primary updatePart" onclick="editarPessoa()" data-form-url="{% url 'detalhesUser' part.pk %}"><i class="far fa-eye"></i></button>
+              <button type="button" class="btn btn-success updatePart" onclick="editarPessoa()" data-form-url="{% url 'editUser' part.pk %}"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-danger updatePart" onclick="editarPessoa()" type="button" data-form-url="{% url 'deleteUser' part.pk %}"><i class="far fa-trash-alt"></i></button>
+            </td>
+          </tr>
+         {% endfor %}
+        </tbody>
+    </table>
+    <table class="table table-bordered" id="orgTable" style="display: none;">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+         {% for org in orgs %}
+         <tr>
+            <td>{{ org }}</td>
+            <td>{{ org.user.email }}</td>
+            <td>
+             <button type="button" class="btn btn-danger updatePart" onclick="editarPessoa()" type="button" data-form-url="{% url 'deleteUser' org.pk %}"><i class="far fa-trash-alt"></i></button>
+             <button type="button" class="btn btn-danger updatePart" onclick="editarPessoa()" type="button" data-form-url="{% url 'editOrg' org.pk %}"><i class="fas fa-edit"></i></button>
+            </td>
+          </tr>
+         {% endfor %}
+        </tbody>
+    </table>
+  </div>  
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+   function editarPessoa() {
+        $(".updatePart").each(function () {
+            $(this).modalForm({
+            formURL: $(this).data("form-url")
+            });
+        });
+        event.stopPropagation();
+    }
+    editarPessoa();
+   </script>
+   <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+{% endblock %}
+

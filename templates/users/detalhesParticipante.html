@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h3 class="modal-title">Detalhes do participante</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <div class="">
+      Nome: {{ participante }}
+    </div>
+    <div class="">
+      E-mail: {{ participante.user.email }}
+    </div>
+    <div class="">
+       Nascimento: {{ participante.nascimento }}
+    </div>
+     <div class="">
+        Faculdade: {{ participante.faculdade }}
+     </div>
+     <div class="">
+        Curso: {{ participante.curso }}
+     </div>
+     <div class="">
+      {% for p, q in participante.extraQuestions.items %}
+         {{ p }}: {{ q }}
+      {% endfor %}
+     </div>
+     <div class="">
+        Eventos Inscrito: {% if participante.inscrito_em.all %}
+        <ul>
+            {% for e in participante.inscrito_em.all %}
+            <li>{{ e.nome }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        Não se inscreveu em nenhum evento!
+        {% endif %}
+     </div>
+     <div class="">
+      Eventos Presente: {% if participante.presente_em.all %}
+      <ul>
+          {% for e in participante.presente_em.all %}
+          <li>{{ e.nome }}</li>
+          {% endfor %}
+      </ul>
+      {% else %}
+      Não foi em nenhum evento!
+      {% endif %}
+   </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+  </div>

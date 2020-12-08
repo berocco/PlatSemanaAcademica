@@ -1,16 +1,84 @@
-<!--users/templates/users/dashboard.html-->
-
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block content %}
-Hello, {{ user.username|default:'Guest' }}!
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content"></div>
+   </div>
+ </div>
 
-<div>
-    {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}">Logout</a>
-        <a href="{% url 'password_change' %}">Change password</a>
+<div class="actualEvent">
+    <div class = "container">
+       <div class="actualEventText">Dashboard</div>
+    </div>
+ </div>
+ <div class='container'>
+ <div class="formGd">
+   {% if ativo %}
+    <h2>Evento agora: {{ ativo.0.nome }}, com {{ ativo.0.empresa }}
+    <a href="{% url 'eventos:agora' %}" class="btn btn-secundary createEvent" type="button" name="button">Participar</a></h2>
     {% else %}
-        <a href="{% url 'login' %}">Login</a>
+    {% if nextEventos %}
+    <h2>Próximo evento: {{ nextEventos.0.nome }}<span>, dia {{ nextEventos.0.inicio|date:'d/m, à\s H:i' }}</span>
+      {% endif %}  
     {% endif %}
+   </div>
+</div> 
+<div class='container'>
+<div class="secRow row">
+   <div class="formSmL">
+      <h1>Próximos eventos:</h1>
+      {% if eventos %}
+         <ul>
+            {% for evento in nextEventos %}
+            <li><span>{{ evento.nome }}</span>, com {{ evento.empresa }} - {{ evento.inicio | date:'d/m, à\s H:i' }}</li>
+            {% endfor %}
+          </ul>
+      <button href="#" class="btn btn-secundary editEvent" onclick="inscEdit()" type="button" name="button">Editar minhas inscrições</button>
+      {% else %}
+      A organização ainda não cadastrou nenhum evento.
+      {% endif %}
+   </div> 
+   <div class="formSmR">
+      <h1>Prêmios</h1> Suas presenças: {{ presenca }}
+      {% if premios %}
+         <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Meta</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Ganhou</th>
+            </tr>
+            </thead>
+            <tbody>
+             {% for p in premios %}
+             <tr>
+                <td>{{ p.meta }}</td>
+                <td>{{ p.premio }}</td>
+                <td>{% if p.meta <= presenca  %}Ganhou!{% else %}Ainda não...{% endif %}</td>
+              </tr>
+             {% endfor %}
+            </tbody>
+        </table>
+      {% else %}
+      A organização ainda não cadastrou nenhum prêmio.
+      {% endif %}
+   </div> 
+</div>
 </div>
 {% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+   function inscEdit() {
+       $(".editEvent").modalForm({
+        formURL: "{% url 'editInsc' %}",
+   });
+   };
+   inscEdit();
+   </script>
+   <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+{% endblock %}
+

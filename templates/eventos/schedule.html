@@ -1,0 +1,113 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<script>document.getElementsByTagName("html")[0].className += " js";</script>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
+  <div class="actualEvent">
+    <div class = "container">
+       <div class="actualEventText">Cronograma {% if user.is_organizador %}<button class="btn btn-secundary createEvent" onclick="criarEvento()" type="button" name="button">Criar evento</button> {% endif %}
+       </div>
+    </div>
+ </div>
+{% if eventos %}
+ <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
+    <div class="cd-schedule__timeline">
+       <ul>
+          {% for time in times %}
+          <li><h7><span>{{ time }}</span></h7></li>
+          {% endfor %}
+       </ul>
+    </div>
+    <!-- .cd-schedule__timeline -->
+    <div class="cd-schedule__events">
+       <ul>
+         {% for key, value in eventos.items %}
+          <li class="cd-schedule__group">
+             <div class="cd-schedule__top-info"><h7><span>{{ key }}</span></h7></div>
+             <ul>
+                {% for evento in value %}
+
+                <li class="cd-schedule__event">
+                  {% if user.is_organizador %}
+                    <button id=upd{{ evento.pk }} class="btn btn-secundary updateEvent" onclick="editarEvento()" type="button" data-form-url="{% url 'eventos:update_event' evento.pk %}">Editar</button>
+                   <button id=del{{ evento.pk }} class="btn btn-secundary updateEvent" onclick="editarEvento()" type="button" data-form-url="{% url 'eventos:delete_event' evento.pk %}">Excluir</button>
+                   {% endif %}
+                   <a pk = "{{ evento.pk }}" data-start="{{ evento.inicio | date:"H:i" }}" data-end="{{ evento.fim | date:"H:i" }}" data-content="{{ evento.nome }}" data-event="event-1" href="#0">
+                   <em class="cd-schedule__name">{{ evento.tema }}</em>
+                   {{ evento.nome }}
+                   </a>
+                </li>
+                {% endfor %}
+             </ul>
+          </li>
+        {% endfor %}
+       </ul>
+    </div>
+    <div class="cd-schedule-modal">
+       <header class="cd-schedule-modal__header">
+          <div class="cd-schedule-modal__content">
+             <span class="cd-schedule-modal__date"></span></h7>
+             <h3 class="cd-schedule-modal__name"></h3>
+          </div>
+          <div class="cd-schedule-modal__header-bg"></div>
+          {% if user.is_organizador %}
+          <button style="z-index: 3413;" class="btn btn-secundary updateEvent updatePop" onclick="" type="button">Editar</button>
+          <button style="z-index: 3413;" class="btn btn-secundary updateEvent deletePop" onclick="" type="button">Excluir</button>
+          {% endif %}
+       </header>
+       <div class="cd-schedule-modal__body">
+          <div class="cd-schedule-modal__event-info"></div>
+          <div class="cd-schedule-modal__body-bg"></div>
+       </div>
+       <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
+    </div>
+    <div class="cd-schedule__cover-layer"></div>
+ </div>
+{% else %}
+
+{% endif %}
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/utilSchedule.js' %}"></script>
+<script src="{% static 'js/mainSchedule.js' %}"></script>
+<script type="text/javascript">
+let root = document.documentElement;
+var tam =  {{ times | safe  }}.length-1
+root.style.setProperty('--schedule-rows-number', tam);
+</script>
+
+{% if user.is_organizador %}
+<script type="text/javascript">
+    function criarEvento() {
+        $(".createEvent").modalForm({
+         formURL: "{% url 'eventos:novo' %}",
+    });
+    };
+    criarEvento();
+    function editarEvento() {
+        $(".updateEvent").each(function () {
+            $(this).modalForm({
+            formURL: $(this).data("form-url")
+            });
+        });
+        event.stopPropagation();
+    }
+    editarEvento();
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    {% endif %}
+
+{% endblock %}

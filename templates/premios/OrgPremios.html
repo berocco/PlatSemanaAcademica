@@ -1,0 +1,75 @@
+{% extends 'baseOrg.html' %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
+<div class ='container'>   
+   <div class="formAdm">
+    <h2>Prêmios:<button  onclick="criarPremios()" type="button" name="button" class="btn btn-secundary createPremio">Criar prêmio</button></h2>
+    {% if ps %}    
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Meta</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Ganhadores</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+         {% for p in ps %}
+         <tr>
+            <td>{{ p.meta }}</td>
+            <td>{{ p.premio }}</td>
+            <td>{% if p.ganhadores.all %}
+              {% for w in p.ganhadores.all %}
+                {{ w.nome }}, 
+              {% endfor %}              
+              {% else %}Nenhum ganhador ainda{% endif %}</td>
+            <td>
+              <button type="button" name="button" class="btn btn-success updatePremio" onclick="editarPremio()" data-form-url="{% url 'updatePremio' p.pk %}"><i class="fas fa-edit"></i></button>
+              <button type="button" name="button" class="btn btn-danger updatePremio" onclick="editarPremio()"  data-form-url="{% url 'deletePremio' p.pk %}"><i class="far fa-trash-alt"></i></button>
+            </td>
+          </tr>
+         {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    Sem prêmios para exibir.
+    {% endif %}
+  </div>  
+</div>
+{% endblock %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+    function criarPremio() {
+        $(".createPremio").modalForm({
+         formURL: "{% url 'createPremio' %}",
+    });
+    };
+    criarPremio();
+    function editarPremio() {
+        $(".updatePremio").each(function () {
+            $(this).modalForm({
+            formURL: $(this).data("form-url")
+            });
+        });
+    };
+    editarPremio();
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+{% endblock %}
+

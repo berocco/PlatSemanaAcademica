@@ -1,0 +1,31 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+  <div class="actualEvent">
+    <div class = "container">
+       <div class="actualEventText">{{ evento.nome }}
+       </div>
+    </div>
+ </div>
+ <div class='container' style='width:100%; background-color: white; padding:0;'>
+    <div class="formGd" style="margin: 0; background-color: white; text-align: center;">
+       <h3>Evento apresentado em parceria com {{ evento.empresa }}</h3>
+       <p>{{ evento.descricao }}</p>
+      </div>
+   </div> 
+   <div class='container'>
+   <div class="secRow row">
+      <div class="formGd" style='background-color: white;'>
+         {% if evento.abertoFeedback %}
+         <a href="{% url 'feedbacksAdd' %}" class="btn btn-secundary editEvent" type="button" name="button">Preencher Feedback</a>
+         {% else %}
+         Espere até aproximadamente 30 minutos antes de {{ evento.fim | date:'H:i' }} para poder preencher o feedback.
+         {% endif %}
+      </div> 
+   </div>
+   </div>
+   {% endblock %}
+   

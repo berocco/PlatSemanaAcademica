@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content"></div>
+   </div>
+ </div>
+
+<div class="actualEvent">
+    <div class = "container">
+       <div class="actualEventText">Minha Conta</div>
+    </div>
+ </div>
+
+ <div class="formun">
+    {% if user.is_participant %}
+    <strong>Nome: </strong>{{ user }}
+    <br>
+    <strong>E-mail: </strong>{{ user.email }}
+    <br>
+    <strong>Nascimento: </strong>{{ u.nascimento }}
+    <br>
+    <strong>Faculdade: </strong>{{ u.faculdade }}
+    <br>
+    <strong>Curso: </strong>{{ u.curso }}
+    <br>
+    <button class="btn btn-secundary selfEdit" onclick="editarPessoa()" type="button">Editar meus dados</button>
+    <a href="{% url 'dashboard' %}" class="btn btn-secundary">Voltar à Dashboard</a>
+    <a href="{% url 'password_change' %}" class="btn btn-secundary">Alterar minha senha</a>
+   {% else %}
+   <strong>Nome: </strong>{{ user }}
+    <br>
+    <strong>E-mail: </strong>{{ user.email }}
+   <br>
+   <a href="{% url 'dashboard' %}" class="btn btn-secundary">Voltar à Dashboard</a>
+   <a href="{% url 'password_change' %}" class="btn btn-secundary">Alterar minha senha</a>
+   {% endif %}
+   </div> 
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+   function editarPessoa() {
+        $(".selfEdit").each(function () {
+            $(this).modalForm({
+            formURL: "{% url 'selfedit' %}"
+            });
+        });
+        event.stopPropagation();
+    }
+    editarPessoa();
+   </script>
+   <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+{% endblock %}

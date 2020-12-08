@@ -1,0 +1,63 @@
+{% extends 'baseOrg.html' %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
+<div class ='container'>   
+   <div class="formAdm">
+    <h2>Perguntas:<button  onclick="criarPergunta()" type="button" name="button" class="btn btn-secundary createQuestion">Criar pergunta</button></h2>
+        <table class="table table-bordered" id="partTable">
+        <thead>
+          <tr>
+            <th scope="col">Texto</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+         {% for q in qs %}
+         <tr>
+            <td>{{ q.texto }}</td>
+            <td>
+              <button type="button" name="button" class="btn btn-success updateQuestion" onclick="editarPergunta()" data-form-url="{% url 'editInscQuestion' q.pk %}"><i class="fas fa-edit"></i></button>
+              <button type="button" name="button" class="btn btn-danger updateQuestion" onclick="editarPergunta()"  data-form-url="{% url 'deleteInscQuestion' q.pk %}"><i class="far fa-trash-alt"></i></button>
+            </td>
+          </tr>
+         {% endfor %}
+        </tbody>
+    </table>
+  </div>  
+</div>
+{% endblock %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+    function criarPergunta() {
+        $(".createQuestion").modalForm({
+         formURL: "{% url 'createInscQuestion' %}",
+    });
+    };
+    criarPergunta();
+    function editarPergunta() {
+        $(".updateQuestion").each(function () {
+            $(this).modalForm({
+            formURL: $(this).data("form-url")
+            });
+        });
+    };
+    editarPergunta();
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+{% endblock %}
+

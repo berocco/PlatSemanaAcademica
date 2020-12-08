@@ -1,0 +1,70 @@
+{% extends 'baseOrg.html' %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
+<div class ='container'>   
+   <div class="formAdm">
+    <h2>Eventos:<button  onclick="criarEvento()" type="button" name="button" class="btn btn-secundary createEvent">Criar evento</button></h2>
+        <table class="table table-bordered" id="partTable">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Início</th>
+            <th scope="col">Fim</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+         {% for evento in eventos %}
+         <tr>
+            <td>{{ evento.nome }}</td>
+            <td>{{ evento.inicio | date:'d/m, à\s H:i' }}</td>
+            <td>{{ evento.fim | date:'d/m, à\s H:i' }}</td>
+            <td>{{ evento.empresa }}</td>
+            <td>
+              <button type="button" name="button" class="btn btn-primary updateEvent" onclick="editarEvento()" data-form-url="{% url 'eventos:detail_event' evento.pk %}"><i class="far fa-eye"></i></button>
+              <button type="button" name="button" class="btn btn-success updateEvent" onclick="editarEvento()" data-form-url="{% url 'eventos:update_event' evento.pk %}"><i class="fas fa-edit"></i></button>
+              <button type="button" name="button" class="btn btn-danger updateEvent" onclick="editarEvento()"  data-form-url="{% url 'eventos:delete_event' evento.pk %}"><i class="far fa-trash-alt"></i></button>
+            </td>
+          </tr>
+         {% endfor %}
+        </tbody>
+    </table>
+  </div>  
+</div>
+{% endblock %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+    function criarEvento() {
+        $(".createEvent").modalForm({
+         formURL: "{% url 'eventos:novo' %}",
+    });
+    };
+    criarEvento();
+    function editarEvento() {
+        $(".updateEvent").each(function () {
+            $(this).modalForm({
+            formURL: $(this).data("form-url")
+            });
+        });
+    };
+    editarEvento();
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+{% endblock %}
+

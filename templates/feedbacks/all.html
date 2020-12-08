@@ -1,0 +1,40 @@
+{% extends 'baseOrg.html' %}
+{% load static %}
+
+{% block content %}
+<div class ='container'>   
+    <div class="formAdm">
+     <h2>Feedbacks: <a href="{% url 'feedbackQuestions' %}" type="button" name="button" class="btn btn-secundary">Editar perguntas de feedback</button></a>
+        {% if fbs %}
+        <table class="table table-bordered">
+         <thead>
+           <tr>
+             <th scope="col">Autor</th>
+             <th scope="col">Evento</th>
+             <th scope="col">Expectativa</th>
+             <th scope="col">Tema</th>
+             <th scope="col">Organização</th>
+             <th scope="col">Comentários</th>
+             <th scope="col">Perguntas Extra</th>
+         </tr>
+         </thead>
+         <tbody>
+          {% for feed in fbs %}
+          <tr>
+             <td>{{ feed.autor }}</td>
+             <td>{{ feed.evento }}</td>
+             <td>{{ feed.expectativa }}</td>
+             <td>{{ feed.tema }}</td>
+             <td>{{ feed.organização }}</td>
+             <td>{{ feed.comentários }}</td>
+             <td>{{ feed.extraQuestions }}</td>
+           </tr>
+          {% endfor %}
+         </tbody>
+     </table>
+     {% else %}
+     Nenhum feedback disponível ainda!
+     {% endif %}
+   </div>  
+ </div>
+ {% endblock %}

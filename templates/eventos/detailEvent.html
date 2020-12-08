@@ -1,0 +1,55 @@
+
+<div class="modal-header">
+    <h3 class="modal-title">Detalhes do evento</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <div class="">
+      Nome: {{ evento.nome }}
+    </div>
+    <div class="">
+       Início: {{ evento.inicio |date:'d/m, à\s H:i' }}
+    </div>
+    <div class="">
+      Fim: {{ evento.fim |date:'d/m, à\s H:i' }}
+    </div>
+    <div class="">
+        Tema: {{ evento.tema }}
+      </div>
+      <div class="">
+        Empresa: {{ evento.empresa }}
+      </div>
+      <div class="">
+        Descrição: {{ evento.descricao }}
+      </div>
+      <hr>
+      <div class="">
+        Inscritos: {% if evento.inscritos.all %}
+        <ul>
+            {% for p in evento.inscritos.all %}
+            <li>{{ p }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        Não há inscritos para este evento!
+        {% endif %}
+      </div>
+      <div class="">
+        Presentes: {% if evento.presentes.all %}
+        <ul>
+            {% for p in evento.presentes.all %}
+            <li>{{ p }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        Não há presentes!
+        {% endif %}
+      </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+  </div>

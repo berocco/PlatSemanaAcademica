@@ -3,15 +3,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Login</h2>
+<div class="actualEvent">
+    <div class = "container">
+       <div class="actualEventText">Login</div>
+    </div>
+ </div>
 
-<form method="post">
-    {% csrf_token %}
+ <form class="formun" method="post"> {% csrf_token %} 
     {{ form.as_p }}
-    <input type="submit" value="Login">
-</form>
+    <input class="btn btn-secundary" type="submit" value="Login">
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'password_reset' %}" class="btn btn-secundary">Esqueci minha senha</a>
+    <a href="{% url 'register' %}" class="btn btn-secundary">Cadastre-se</a>
+ </form> 
 
-<a href="{% url 'dashboard' %}">Back to dashboard</a>
-<a href="{% url 'password_reset' %}">Reset password</a>
-<a href="{% url 'register' %}">Register</a>
 {% endblock %}
